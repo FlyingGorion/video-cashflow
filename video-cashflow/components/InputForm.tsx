@@ -73,11 +73,11 @@ export default function InputForm({ onSubmit }: InputFormProps) {
   };
 
   return (
-    <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-lg">
-      <h2 className="text-2xl font-bold text-center mb-6">資金状況を入力</h2>
+    <div className="w-full max-w-lg mx-auto bg-white p-4 md:p-6 rounded-lg shadow-lg">
+      <h2 className="text-xl md:text-2xl font-bold text-center mb-4 md:mb-6">資金状況を入力</h2>
       
       {/* 現在残高 */}
-      <div className="mb-6">
+      <div className="mb-4 md:mb-6">
         <label className="block text-sm font-medium text-gray-700 mb-2">
           現在残高（円）
         </label>
@@ -85,22 +85,22 @@ export default function InputForm({ onSubmit }: InputFormProps) {
           type="number"
           value={currentBalance || ''}
           onChange={(e) => setCurrentBalance(Number(e.target.value))}
-          className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 placeholder-gray-400"
+          className="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 placeholder-gray-400 text-base md:text-lg"
           placeholder="例: 500000"
           min="0"
         />
       </div>
 
       {/* 案件入力 */}
-      <div className="mb-6">
-        <div className="flex items-center justify-between mb-3">
+      <div className="mb-4 md:mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2">
           <label className="block text-sm font-medium text-gray-700">
             今後の案件（最大3件）
           </label>
           {projects.length < 3 && (
             <button
               onClick={addProject}
-              className="text-blue-500 hover:text-blue-700 text-sm font-medium"
+              className="text-blue-500 hover:text-blue-700 text-sm font-medium py-1 px-2 rounded"
             >
               ＋ 案件追加
             </button>
@@ -108,13 +108,13 @@ export default function InputForm({ onSubmit }: InputFormProps) {
         </div>
         
         {projects.map((project, index) => (
-          <div key={index} className="border border-gray-200 rounded-md p-4 mb-3">
-            <div className="flex justify-between items-center mb-3">
+          <div key={index} className="border border-gray-200 rounded-md p-3 md:p-4 mb-3">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-3 gap-2">
               <h3 className="text-sm font-medium text-gray-700">案件 {index + 1}</h3>
               {projects.length > 1 && (
                 <button
                   onClick={() => removeProject(index)}
-                  className="text-red-500 hover:text-red-700 text-sm"
+                  className="text-red-500 hover:text-red-700 text-sm py-1 px-2 rounded self-start sm:self-center"
                 >
                   削除
                 </button>
@@ -128,7 +128,7 @@ export default function InputForm({ onSubmit }: InputFormProps) {
                   type="number"
                   value={project.amount || ''}
                   onChange={(e) => updateProject(index, 'amount', Number(e.target.value))}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 placeholder-gray-400"
+                  className="w-full p-2 md:p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 placeholder-gray-400 text-base"
                   placeholder="例: 300000"
                   min="0"
                 />
@@ -140,7 +140,7 @@ export default function InputForm({ onSubmit }: InputFormProps) {
                   type="date"
                   value={project.paymentDate}
                   onChange={(e) => updateProject(index, 'paymentDate', e.target.value)}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
+                  className="w-full p-2 md:p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900 text-base"
                   min={format(new Date(), 'yyyy-MM-dd')}
                   max={format(addDays(new Date(), 60), 'yyyy-MM-dd')}
                 />
@@ -153,7 +153,7 @@ export default function InputForm({ onSubmit }: InputFormProps) {
       {/* 送信ボタン */}
       <button
         onClick={handleSubmit}
-        className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 px-4 rounded-md transition duration-200"
+        className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 md:py-4 px-4 rounded-md transition duration-200 text-base md:text-lg"
       >
         結果を見る
       </button>

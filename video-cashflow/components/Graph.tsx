@@ -28,20 +28,23 @@ export default function Graph({ data, title = '残高推移' }: GraphProps) {
 
   return (
     <div className="w-full">
-      {title && <h2 className="text-xl font-semibold mb-4 text-center">{title}</h2>}
-      <div className="h-96 w-full">
+      {title && <h2 className="text-lg md:text-xl font-semibold mb-3 md:mb-4 text-center">{title}</h2>}
+      <div className="h-64 sm:h-80 md:h-96 w-full">
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
+          <LineChart data={chartData} margin={{ top: 20, right: 15, left: 10, bottom: 20 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#e0e7ff" />
             <XAxis 
               dataKey="displayDate"
-              tick={{ fontSize: 12 }}
+              tick={{ fontSize: 10 }}
               axisLine={{ stroke: '#6b7280' }}
+              className="text-xs sm:text-sm"
             />
             <YAxis 
-              tick={{ fontSize: 12 }}
+              tick={{ fontSize: 10 }}
               tickFormatter={formatCurrency}
               axisLine={{ stroke: '#6b7280' }}
+              className="text-xs sm:text-sm"
+              width={60}
             />
             <Tooltip 
               formatter={(value: number) => [formatCurrency(value), '残高']}
@@ -75,7 +78,7 @@ export default function Graph({ data, title = '残高推移' }: GraphProps) {
           </LineChart>
         </ResponsiveContainer>
       </div>
-      <div className="mt-4 text-sm text-gray-600 text-center">
+      <div className="mt-3 md:mt-4 text-xs md:text-sm text-gray-600 text-center px-2">
         <p>赤い破線は資金ショートライン（残高0円）です</p>
       </div>
     </div>
