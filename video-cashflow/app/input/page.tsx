@@ -1,14 +1,21 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import Link from 'next/link';
 import InputForm from '@/components/InputForm';
 import { CashFlowInput } from '@/lib/calc';
+import { trackPageView, trackFormSubmit } from '@/lib/analytics';
 
 export default function Input() {
   const router = useRouter();
 
+  useEffect(() => {
+    trackPageView('input');
+  }, []);
+
   const handleSubmit = (data: CashFlowInput) => {
+    trackFormSubmit('cash_flow_input');
     // セッションストレージに保存
     sessionStorage.setItem('cashFlowData', JSON.stringify(data));
     // 結果ページに遷移

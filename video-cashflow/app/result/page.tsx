@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Graph from '@/components/Graph';
 import { calculateCashFlow, CashFlowInput, CashFlowResult } from '@/lib/calc';
+import { trackPageView, trackCashFlowCalculation } from '@/lib/analytics';
 import { format, parseISO } from 'date-fns';
 import { ja } from 'date-fns/locale';
 
@@ -14,6 +15,8 @@ export default function Result() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    trackPageView('result');
+    
     // セッションストレージからデータを取得
     const savedData = sessionStorage.getItem('cashFlowData');
     
@@ -27,6 +30,9 @@ export default function Result() {
       const inputData: CashFlowInput = JSON.parse(savedData);
       const calculatedResult = calculateCashFlow(inputData);
       setResult(calculatedResult);
+      
+      // Google Analyticsで計算イベントをトラッキング
+      trackCashFlowCalculation(inputData.currentBalance, inputData.projects.length);
     } catch (error) {
       console.error('データの解析に失敗しました:', error);
       router.push('/input');

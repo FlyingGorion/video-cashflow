@@ -1,11 +1,21 @@
 'use client';
 
 import Link from 'next/link';
+import { useEffect } from 'react';
 import Graph from '@/components/Graph';
 import { generateDummyData } from '@/lib/calc';
+import { trackPageView, trackButtonClick } from '@/lib/analytics';
 
 export default function Home() {
   const dummyData = generateDummyData();
+
+  useEffect(() => {
+    trackPageView('home');
+  }, []);
+
+  const handleTryButtonClick = () => {
+    trackButtonClick('try_with_data', 'home');
+  };
 
   return (
     <main className="min-h-screen bg-gray-50 py-4 md:py-8">
@@ -43,6 +53,7 @@ export default function Home() {
         <div className="text-center">
           <Link 
             href="/input"
+            onClick={handleTryButtonClick}
             className="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 md:py-4 px-6 md:px-8 rounded-lg text-lg md:text-xl transition duration-200 shadow-lg hover:shadow-xl"
           >
             自分のデータで試す
@@ -54,6 +65,14 @@ export default function Home() {
 
         {/* フッター */}
         <div className="text-center mt-16 text-gray-500">
+          <div className="mb-2">
+            <Link 
+              href="/privacy" 
+              className="text-gray-500 hover:text-gray-700 text-sm underline mr-4"
+            >
+              プライバシーポリシー
+            </Link>
+          </div>
           <p>&copy; 2026 動画編集資金計算ツール</p>
         </div>
       </div>
