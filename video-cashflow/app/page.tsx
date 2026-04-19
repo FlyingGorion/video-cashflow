@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect } from 'react';
-import Graph from '@/components/Graph';
+import ClientGraph from '@/components/ClientGraph';
 import { generateDummyData } from '@/lib/calc';
 import { trackPageView, trackButtonClick } from '@/lib/analytics';
 
@@ -36,7 +36,7 @@ export default function Home() {
 
         {/* ダミーデータグラフ */}
         <div className="bg-white rounded-xl shadow-lg p-4 md:p-6 mb-6 md:mb-8">
-          <Graph 
+          <ClientGraph 
             data={dummyData.balanceHistory} 
             title="資金推移の例（危険パターン）" 
           />

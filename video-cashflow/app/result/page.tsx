@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import Graph from '@/components/Graph';
+import ClientGraph from '@/components/ClientGraph';
 import { calculateCashFlow, CashFlowInput, CashFlowResult } from '@/lib/calc';
 import { trackPageView, trackCashFlowCalculation } from '@/lib/analytics';
 import { format, parseISO } from 'date-fns';
@@ -104,7 +104,7 @@ export default function Result() {
 
         {/* グラフ */}
         <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
-          <Graph 
+          <ClientGraph 
             data={result.balanceHistory} 
             title="今後60日間の残高推移" 
           />

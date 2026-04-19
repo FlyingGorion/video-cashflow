@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts';
 import { format, parseISO } from 'date-fns';
 import { ja } from 'date-fns/locale';
@@ -11,6 +12,13 @@ interface GraphProps {
 }
 
 export default function Graph({ data, title = '残高推移' }: GraphProps) {
+  const [mounted, setMounted] = useState(false);
+
+  // クライアントサイドでのみレンダリング
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   // グラフ用のデータを整形
   const chartData = data.map((item, index) => ({
     ...item,
@@ -25,6 +33,18 @@ export default function Graph({ data, title = '残高推移' }: GraphProps) {
   const formatCurrency = (value: number) => {
     return `${value.toLocaleString()}円`;
   };
+
+  // SSR時は何も表示しない
+  if (!mounted) {
+    return (
+      <div className="w-full">
+        {title && <h2 className="text-lg md:text-xl font-semibold mb-3 md:mb-4 text-center">{title}</h2>}
+        <div className="h-64 sm:h-80 md:h-96 w-full flex items-center justify-center bg-gray-50 rounded-lg">
+          <div className="text-gray-500">グラフを読み込み中...</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full">
@@ -47,7 +67,12 @@ export default function Graph({ data, title = '残高推移' }: GraphProps) {
               width={60}
             />
             <Tooltip 
-              formatter={(value: number) => [formatCurrency(value), '残高']}
+              formatter={(value, name, props) => {
+                if (typeof value === 'number') {
+                  return [formatCurrency(value), '残高'];
+                }
+                return [String(value), '残高'];
+              }}
               labelFormatter={(label, payload) => {
                 if (payload && payload.length > 0 && payload[0]?.payload?.date) {
                   return formatTooltipDate(payload[0].payload.date);
