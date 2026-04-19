@@ -36,21 +36,14 @@ export default function Graph({ data, title = '残高推移' }: GraphProps) {
 
   // SSR時は何も表示しない
   if (!mounted) {
-    return (
-      <div className="w-full">
-        {title && <h2 className="text-lg md:text-xl font-semibold mb-3 md:mb-4 text-center">{title}</h2>}
-        <div className="h-64 sm:h-80 md:h-96 w-full flex items-center justify-center bg-gray-50 rounded-lg">
-          <div className="text-gray-500">グラフを読み込み中...</div>
-        </div>
-      </div>
-    );
+    return null; // SSR時は何もレンダリングしない
   }
 
   return (
     <div className="w-full">
       {title && <h2 className="text-lg md:text-xl font-semibold mb-3 md:mb-4 text-center">{title}</h2>}
-      <div className="h-64 sm:h-80 md:h-96 w-full">
-        <ResponsiveContainer width="100%" height="100%">
+      <div className="h-64 sm:h-80 md:h-96 w-full" style={{ minHeight: '256px', minWidth: '300px' }}>
+        <ResponsiveContainer width="100%" height="100%" minHeight={256}>
           <LineChart data={chartData} margin={{ top: 20, right: 15, left: 10, bottom: 20 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#e0e7ff" />
             <XAxis 
